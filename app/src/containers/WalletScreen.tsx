@@ -51,13 +51,14 @@ function WalletScreen() {
         </Badge>
       </div>
       {wallet && (
-        <div className="flex-1 overflow-y-scroll p-4">
+        <div className="flex flex-col flex-1 p-4 overflow-hidden">
           <WalletComponent
             balance={wallet.balance}
             onRechargeSuccess={fetchWalletData}
           />
-
-          <TransactionHistory transactions={wallet.transactions} />
+          <div className="flex-1 mt-4 overflow-hidden">
+            <TransactionHistory transactions={wallet.transactions} />
+          </div>
         </div>
       )}
     </div>
