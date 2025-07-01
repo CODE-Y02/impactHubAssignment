@@ -1,13 +1,13 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import InsufficientCoinsPopup from "../components/InsufficientCoinsPopup";
 import api from "@/services/api";
 import type { Game } from "@/types";
+import { Button } from "@/components/ui/button";
 
 export default function GameScreen() {
   const { gameId } = useParams<{ gameId: string }>();
   const location = useLocation();
-  const navigate = useNavigate();
   const entryCoins = location.state?.entryCoins as number | undefined;
 
   const [gameName, setGameName] = useState<string>("");
@@ -37,7 +37,7 @@ export default function GameScreen() {
         const game = (await api.get(`/games/${gameId}`)) as Game;
         setGameName(game.name);
       } catch (err: unknown) {
-        console.error("Error joining game:", err); // Add this for debugging
+        console.error("Error joining game:", err);
         const apiError = err as { message?: string };
         if (apiError.message === "Insufficient balance") {
           setShowPopup(true);
@@ -64,12 +64,12 @@ export default function GameScreen() {
   }
 
   if (showPopup) {
-    return <InsufficientCoinsPopup onClose={() => navigate("/")} />;
+    return <InsufficientCoinsPopup open={showPopup} />;
   }
 
   if (error) {
     return (
-      <div className="p-4 flex flex-col items-center">
+      <div className="p-4 h-screen w-screen flex flex-col items-center justify-center">
         <p className="text-red-500">{error}</p>
         <Link to="/" className="mt-4 text-blue-500 hover:underline">
           Back to Lobby
@@ -80,7 +80,7 @@ export default function GameScreen() {
 
   if (!isJoined) {
     return (
-      <div className="p-4 text-center">
+      <div className="p-4 h-screen w-screen flex flex-col items-center justify-center">
         Could not join the game. Please try again.
         <Link to="/" className="block mt-4 text-blue-500 hover:underline">
           Back to Lobby
@@ -90,11 +90,11 @@ export default function GameScreen() {
   }
 
   return (
-    <div className="p-4 flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-4">{gameName} (Placeholder)</h1>
-      <p className="text-gray-600 mb-4">This is a dummy game screen.</p>
+    <div className="p-4 h-screen w-screen flex flex-col items-center justify-center">
+      <h1 className="text-2xl font-bold mb-4">{gameName}</h1>
+
       <Link to="/" className="text-blue-500 hover:underline">
-        Back to Lobby
+        <Button>Back to Lobby</Button>
       </Link>
     </div>
   );

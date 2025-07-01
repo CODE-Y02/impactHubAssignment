@@ -39,7 +39,7 @@ function WalletScreen() {
   }
 
   return (
-    <div className="h-screen flex flex-col w-screen gap-3">
+    <div className="h-screen flex flex-col w-screen gap-3 ">
       <div className="flex p-2 items-center justify-between border-b-2 gap-3">
         <Button onClick={() => navigate(`/`)}>
           <ArrowLeftSquareIcon />
@@ -51,13 +51,14 @@ function WalletScreen() {
         </Badge>
       </div>
       {wallet && (
-        <>
+        <div className="flex-1 overflow-y-scroll p-4">
           <WalletComponent
             balance={wallet.balance}
             onRechargeSuccess={fetchWalletData}
           />
+
           <TransactionHistory transactions={wallet.transactions} />
-        </>
+        </div>
       )}
     </div>
   );

@@ -12,7 +12,7 @@ export default function Wallet({ balance, onRechargeSuccess }: WalletProps) {
 
   const handleRecharge = async (amount: number) => {
     try {
-      await api.post('/wallet/recharge', { amount });
+      await api.post("/wallet/recharge", { amount });
       onRechargeSuccess(); // Notify parent to refetch data
       setIsModalOpen(false);
     } catch (err) {
@@ -32,7 +32,8 @@ export default function Wallet({ balance, onRechargeSuccess }: WalletProps) {
       </button>
       {isModalOpen && (
         <RechargeModal
-          onClose={() => setIsModalOpen(false)}
+          open={isModalOpen}
+          setOpen={setIsModalOpen}
           onRecharge={handleRecharge}
         />
       )}
